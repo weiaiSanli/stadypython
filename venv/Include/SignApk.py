@@ -13,7 +13,7 @@ class SignApkThread(threading.Thread):
     def run(self):
         lock.acquire()
         print("开始打包!!! 地址为 %s" % self.fileDir)
-        os.chdir("E:\\work\\pgs-shopkeeper-Android")
+        os.chdir(_dict_path['apkFileDir'])
         os.system(self.osCmd)
         apkPath = getApkName(self.fileDir)
         print("打包以后的地址为: " + apkPath)
@@ -67,35 +67,63 @@ def addThread(fileDir, osCmd):
     threads.append(threadRelease)
 
 
+_dict_path = {}
+
+
+def readFile(filePath):
+    with open(filePath, 'r') as fileLines:
+        for line in fileLines:
+            key, value = line.rstrip().split('=')
+            _dict_path[key.strip()] = value.strip()
+
+
 threads = []
 lock = threading.Lock()
+readFile('signApkFile.txt')
 # 文件最终存储位置
-copyFilePath = "C:\\Users\\Administrator\\Desktop\\sign_apk"
-addressBaseDir = "E:\\work\\pgs-shopkeeper-Android\\app\\build\\outputs\\apk\\"
+copyFilePath = _dict_path['copyFilePath']
+addressBaseDir = _dict_path['addressBaseDir']
 addressReleaseDir = addressBaseDir + "release"
 addressTesingDir = addressBaseDir + "tesing"
 addressDemoDir = addressBaseDir + "demo"
+
 isDelete = input("请输入是否删除原有文件 \n Y/N :")
 if isDelete.lower() == 'y':
     del_path(copyFilePath)  # 删除全部已复制文件
 else:
     pass
 hasPackage = True
+_trump_gradle = ("gradlew assembleTesing", "gradlew assembleDemo", "gradlew assembleRelease")
+_trump_dir = (addressTesingDir, addressDemoDir, addressReleaseDir)
+
+
+def signTypeApk(signPosition):
+    addThread(_trump_dir[signPosition], _trump_gradle[signPosition])
+
+
+_trump_types = ("tesing", "demo", "release", "all")
+
 while hasPackage:
     hasPackage = False
     packageType = input("请输入需要打包的环境 \n demo:预上线  release : 正式环境 \n tesing : 测试  all : 所有环境 \n")
-    if packageType == "demo":
-        addThread(addressDemoDir, "gradlew assembleDemo")  # 打包Demo版本包
-    elif packageType == "release":
-        addThread(addressReleaseDir, "gradlew assembleRelease")  # 打包Release版本包
-    elif packageType == "tesing":
-        addThread(addressTesingDir, "gradlew assembleTesing")  # 打包tesing版本包
-    elif packageType == "all":
-        addThread(addressTesingDir, "gradlew assembleTesing")
-        addThread(addressDemoDir, "gradlew assembleDemo")
-        addThread(addressReleaseDir, "gradlew assembleRelease")
-    else:
+
+    clickPosition = -1
+    for position, item in enumerate(_trump_types):
+        if packageType == item:
+            clickPosition = position
+            break
+
+    print("position %s" % clickPosition)
+    if position < 0:
         hasPackage = True
+    elif position == 3:
+        pass
+        signTypeApk(0)
+        signTypeApk(1)
+        signTypeApk(2)
+    else:
+        pass
+        signTypeApk(position)
 
 for t in threads:
     t.join()
