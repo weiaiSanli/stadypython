@@ -1,0 +1,3 @@
+copyFilePath = C:\\Users\\Administrator\\Desktop\\sign_apk
+addressBaseDir = E:\\work\\pgs-shopkeeper-Android\\app\\build\\outputs\\apk\\
+apkFileDir = E:\\work\\pgs-shopkeeper-Android
