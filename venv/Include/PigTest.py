@@ -12,3 +12,7 @@ if birthday in piStr:
     print("你的生日在其中")
 else:
     print("你的生日不在其中")
+
+allNum = 124000
+jianm = 7939.40 + 6064.11
+print(allNum - jianm)
