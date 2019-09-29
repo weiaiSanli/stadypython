@@ -36,18 +36,19 @@ def loginZhihu(browser):
         userName = browser.find_element_by_name("username")
         if not userName.text:
             print("是否为null")
-        # userName.send_keys("17610551703")
+        userName.send_keys("17610551703")
         userName.send_keys(Keys.RETURN)  # 回车键
 
         time.sleep(3)
 
         pwd = browser.find_element_by_name('password')
         pwd.clear()
-        # pwd.send_keys('sqlm1314/...')
+        pwd.send_keys('sqlm1314/...')
         pwd.send_keys(Keys.RETURN)
         time.sleep(2)
         inp = input("是否登录 Y/N \n")
-        if inp.islower():
+        # if inp.islower():
+        if True:
             print("start login...")
             btn = browser.find_element_by_css_selector('Button SignFlow-submitButton Button--primary Button--blue')
             btn.click()
@@ -61,7 +62,7 @@ def loginZhihu(browser):
     #     print("no Such!")
 
 
-# loginZhihu(browser)
+loginZhihu(browser)
 
 urls = set()
 
@@ -80,7 +81,7 @@ def getZhihuList(browser):
     pass
 
 
-getZhihuList(browser)
+# getZhihuList(browser)
 # <a href="http://www.tingdongfang.com/book22927a60l1p2.html" title="206东汉之得陇望蜀.mp3">206东汉之得陇望蜀.mp3</a>
 # <a href="http://www.tingdongfang.com/book22927a56l1p2.html" title="202东汉之定都洛阳.mp3">202东汉之定都洛阳.mp3</a>
 

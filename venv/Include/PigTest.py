@@ -2,6 +2,10 @@ fileName = "pi_million_digits.txt"
 with open(fileName, 'r') as file_object:
     lines = file_object.readlines()
 
+for i in range(0, 3):
+    print(i)
+
+
 piStr = ""
 for line in lines:
     piStr += line.rstrip()

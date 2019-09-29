@@ -73,7 +73,7 @@ def getListItem(soup):
         bxjtable.insert_one(content)
 
 
-for index in range(1, 10):
+for index in range(1, 4):
     time.sleep(1)
     soup = getSoup(link + "-" + str(index))
     getListItem(soup)

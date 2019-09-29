@@ -22,12 +22,16 @@ soup = BeautifulSoup(html, 'lxml')
 proces = soup.find('ul', class_='for-list')
 print(len(proces))
 
+
+num = 0 ;
 for item in proces.find_all('li'):
-
+    num += 1
     print(item)
-
+print(num)
 # with open('testfirst.html', 'r') as tf:
 #     soup = BeautifulSoup(tf, 'lxml')
 #     proces = soup.find('ul', class_='producers')
 #     print(len(proces))
 #     print(proces.find_all('li'))
+for index in range(1, 2):
+    print(index)
